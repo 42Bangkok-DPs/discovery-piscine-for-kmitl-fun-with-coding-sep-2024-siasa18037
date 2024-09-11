@@ -25,6 +25,17 @@ h1 {
     object-fit: cover;
 }
 
+.info-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.info-table td {
+    text-align: center;
+    padding: 10px 0;
+    border: none;
+}
+
 .card h2 {
     margin: 10px 0;
 }
@@ -42,7 +53,6 @@ h1 {
     width: 24px;
     height: 24px;
     margin: 10px 10px;
-    
 }
 
 .contact-btn {
