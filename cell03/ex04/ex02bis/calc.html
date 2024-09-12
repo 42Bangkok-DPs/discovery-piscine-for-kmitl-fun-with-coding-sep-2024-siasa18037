@@ -25,7 +25,7 @@
       width: 300px;
     }
 
-    #calcForm input[type="number"],
+    #calcForm input[type="text"],
     #calcForm select {
       font-size: 1.2em;
       padding: 10px;
@@ -36,7 +36,7 @@
       transition: border-color 0.3s;
     }
 
-    #calcForm input[type="number"]:focus,
+    #calcForm input[type="text"]:focus,
     #calcForm select:focus {
       border-color: #007bff;
     }
@@ -56,18 +56,16 @@
       background-color: #0056b3;
     }
 
-    #calcForm input[type="number"],
+    #calcForm input[type="text"],
     #calcForm select,
     #calcForm input[type="submit"] {
       margin-bottom: 10px;
     }
-
   </style>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
   <form id="calcForm">
-    <input type="number" id="left" min="0" placeholder="Left Number" required>
+    <input type="text" id="left" placeholder="Left Number" step="any" required>
     <select id="operator">
       <option value="+">+</option>
       <option value="-">-</option>
@@ -75,57 +73,64 @@
       <option value="/">/</option>
       <option value="%">%</option>
     </select>
-    <input type="number" id="right" min="0" placeholder="Right Number" required>
+    <input type="text" id="right" placeholder="Right Number" step="any" required>
     <input type="submit" value="Try me!">
   </form>
 
   <script>
-    $(document).ready(function() {
-      $('#calcForm').on('submit', function(event) {
-        event.preventDefault();
+    const form = document.getElementById('calcForm');
 
-        const left = parseInt($('#left').val());
-        const operator = $('#operator').val();
-        const right = parseInt($('#right').val());
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
 
-        if (isNaN(left) || isNaN(right) || left < 0 || right < 0) {
-          alert('Error :(');
-          console.log('Error :(');
-          return;
-        }
+      const left = document.getElementById('left').value;
+      const operator = document.getElementById('operator').value;
+      const right = document.getElementById('right').value;
 
+      if (!isNumber(left) || !isNumber(right) || parseFloat(left) < 0 || parseFloat(right) < 0) {
+        alert('Error: Please enter valid numbers.');
+        console.log('Error: Invalid input.');
+        return;
+      }
+
+      const leftNum = parseFloat(left);
+      const rightNum = parseFloat(right);
+
+      if ((operator === '/' && rightNum === 0) || (operator === '%' && rightNum === 0)) {
+        alert("It's over 9000!");
+        console.log("It's over 9000!");
+        return;
+      } else {
         let result;
-        if ((operator === '/' && right === 0) || (operator === '%' && right === 0)) {
-          alert("It's over 9000!");
-          console.log("It's over 9000!");
-          return;
-        } else {
-          switch (operator) {
-            case '+':
-              result = left + right;
-              break;
-            case '-':
-              result = left - right;
-              break;
-            case '*':
-              result = left * right;
-              break;
-            case '/':
-              result = left / right;
-              break;
-            case '%':
-              result = left % right;
-              break;
-          }
-          alert('Result: ' + result);
-          console.log('Result: ' + result);
+        switch (operator) {
+          case '+':
+            result = leftNum + rightNum;
+            break;
+          case '-':
+            result = leftNum - rightNum;
+            break;
+          case '*':
+            result = leftNum * rightNum;
+            break;
+          case '/':
+            result = leftNum / rightNum;
+            break;
+          case '%':
+            result = leftNum % rightNum;
+            break;
         }
-      });
-
-      setInterval(function() {
-        alert('Please, use me...');
-      }, 30000);
+        alert('Result: ' + result);
+        console.log('Result: ' + result);
+      }
     });
+
+    function isNumber(value) {
+      return /^-?\d+(\.\d+)?$/.test(value);
+    }
+
+    setInterval(() => {
+      alert('Please, use me...');
+    }, 30000);
   </script>
 </body>
 </html>
