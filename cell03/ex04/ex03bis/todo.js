@@ -5,7 +5,7 @@ $(document).ready(function() {
   const savedTodos = getCookie('todoList');
 
   if (savedTodos) {
-    const todos = JSON.parse(savedTodos).reverse();
+    const todos = JSON.parse(decodeURIComponent(savedTodos)).reverse();
     $.each(todos, function(index, todo) {
       addTodoToList(todo);
     });
@@ -38,15 +38,15 @@ $(document).ready(function() {
     $('.todo-item').each(function() {
       todos.push($(this).text());
     });
-    document.cookie = `todoList=${JSON.stringify(todos)}; path=/;`;
+    document.cookie = `todoList=${encodeURIComponent(JSON.stringify(todos))}; path=/;`;
   }
 
   function getCookie(name) {
     const value = `; ${document.cookie}`; 
     const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
+    if (parts.length === 2) {
+      return decodeURIComponent(parts.pop().split(';').shift());
+    }
     return '';
   }
-  
-
 });
