@@ -1,10 +1,11 @@
 $(document).ready(function() {
   const $ftList = $('#ft_list');
   const $newBtn = $('#newBtn');
-
+  
   const savedTodos = getCookie('todoList');
+
   if (savedTodos) {
-    const todos = JSON.parse(savedTodos);
+    const todos = JSON.parse(savedTodos).reverse();
     $.each(todos, function(index, todo) {
       addTodoToList(todo);
     });
@@ -41,9 +42,11 @@ $(document).ready(function() {
   }
 
   function getCookie(name) {
-    const value = `; ${document.cookie}`;
+    const value = `; ${document.cookie}`; 
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
     return '';
   }
+  
+
 });
